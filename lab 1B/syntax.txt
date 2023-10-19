@@ -1,0 +1,45 @@
+program ::= "$" decllist "." cmpdstmt "$"
+
+decllist ::= declaration | declaration "." decllist
+
+declaration ::= type IDENTIFIER
+
+type1 ::= "integer" | "char" | "bool" | "string"
+
+arraydeclaration ::= type1 IDENTIFIER "{" nr "}"
+
+type ::= type1 | arraydecl
+
+cmpdstmt ::= stmtlist
+
+stmtlist ::= stmt | stmt "." stmtlist
+
+stmt ::= simplestmt | structstmt
+
+simplestmt ::= assignstmt "."| iostmt "."
+
+assignstmt ::= IDENTIFIER ":=" expression
+
+iostmt ::= "READ" "[" IDENTIFIER"]" | "WRITE" "[" IDENTIFIER "]"
+
+expression = term | expression "+" term | expression "-" term
+
+term ::= term "*" factor | term "/" factor | factor
+
+factor ::= "[" expression "]" | IDENTIFIER | CONST
+
+structstmt ::= cmpdstmt | ifstmt | duringstmt | loopstmt
+
+ifstmt ::= "if" "[" conditionstmt "]" ":" cmpdstmt [ "else" ":" cmpdstmt]
+
+duringstmt ::= "during" "[" conditionstmt "]" ":" cmpdstmt
+
+loopstmt ::= "loop" loopcond ":" cmpdstmt
+
+loopcond ::= "[" assignstmt "," conditionstmt "," assignstmt "]"
+
+condition ::= expression RELATION expression
+
+conditionstmt ::= condition { "|" condition | "&" condition }
+
+RELATION ::= "<" | ">" | "<=" | ">=" | "=" | "!="

@@ -1,0 +1,24 @@
+$
+//p1.
+//Verify that a number is prime
+
+
+integer a.
+
+read[a].
+
+if [ a < 2 ]:
+	print ["false"].
+	break.
+
+if [ a = 2 & a mod 2 = 0 ]:
+	print ["false"].
+	break.
+	
+loop [ integer i := 3, i * i <= a, i := i + 1]:
+	IF [ a mod i = 0]
+		print ["false"].
+		break.
+
+PRINT ["true"].
+$

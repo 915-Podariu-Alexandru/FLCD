@@ -1,0 +1,18 @@
+$
+//p3.
+//Compute the sum of n numbers
+
+integer a{101}.
+integer n.
+integer sum := 0.
+
+read [n].
+
+loop [ integer i := 1, i <= n, i := i + 1]:
+	read [ a{i} ].
+
+loop [ integer i := 1, i <= n, i := i + 1]:
+	sum := sum + a{i}.
+
+print [sum].
+$

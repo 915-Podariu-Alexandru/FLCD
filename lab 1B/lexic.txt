@@ -1,0 +1,43 @@
+Alphabet
+
+1) a-z, A-Z (lower and upper case letters of the English Alphabet)  
+2) 0-9 (decimal digits)
+3) _ (underscore)
+
+1. Lexic
+
+A) Special symbols, representing
+
+1) operators: 
+	arithmetical: + - * / mod
+	relational: = != < > <= >=
+	logical: & |
+	assignment: :=
+
+2) separators: [ ] { } , . : // 
+
+3) reserved words: integer char string read print if during loop break 
+
+B) identifiers
+
+	- a sequence of letters and digits, always starting with a letter
+ 		identifier := letter {letter | digit}
+ 		letter := "A" | "B" | ... | "Z" | "a" | "b" | ... | "z"
+ 		digit  := "0" | "1" | ... | "9"
+
+C) constants
+
+1) integer
+	integer := "0" | [ "+" | "-" ] non_zero_digit {digit}
+	non_zero_digit  := "1" | "2" | ... | "9" 
+	integer_const := integer
+2) char
+	char := letter | digit
+	char_const := "'" char "'" 
+
+3) string
+	string := {char}
+	string_const := "'" {char} "'"
+
+4) bool
+	bool := "false" | "true"
