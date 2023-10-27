@@ -11,7 +11,7 @@ if [ a < 2 ]:
 	print ["false"].
 	break.
 
-if [ a = 2 & a mod 2 = 0 ]:
+if [ a mod 2 = 0 & a != 2]:
 	print ["false"].
 	break.
 	

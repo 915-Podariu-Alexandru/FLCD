@@ -1,0 +1,18 @@
+Code review for Poenaru Oana
+
+Token.in (Token.txt)
+
+- The file is supposed to contain the alphabet(letters, _, and digits), operators, separators, reserved words
+of the language, each one of them written line by line, so that the file can be used as input for the lexical analyser.
+
+Lexic.txt
+
+- The writing of the rule for identifiers should resemble the writing of EBNF a bit more, with the use of :=
+- the rule for identifiers should be modified, as it does not mention the underline character, and the rule letter{letter}{digits} does not convey the correct meaning, as it implies that a letter can be followed by 0 or more letters then by 0 or more digits, but from the explanation it should allow for a mixture of letters and digits
+
+- the operators and the separators are mentioned through the token.txt file, but as the file itself should be written in another fashion, then the mention of the above should be done in the Lexic.txt file 
+- the rule for integers seems ok, but could take care of the 0 case in a more noticeable fashion.
+
+Syntax.txt
+- for the cmpndstmt, the "tabbed" is not necessary, so the cmpndstmt becomes redundant
+- For the negation, perhaps the operator should strictly refer to the equal operator, as other operators can not be negated

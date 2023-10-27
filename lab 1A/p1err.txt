@@ -2,6 +2,8 @@ $
 //p1err.
 //Verify that a number is prime
 //2 lexical errors
+//misspelling of loop -> loopy
+//misspelling of integer -> int
 
 int a.
 
@@ -11,7 +13,7 @@ if [ a < 2 ]:
 	print ["false"].
 	break.
 
-if [ a = 2 & a mod 2 = 0 ]:
+if [ a mod 2 = 0 & a != 2]:
 	print ["false"].
 	break.
 	

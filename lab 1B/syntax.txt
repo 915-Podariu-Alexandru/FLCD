@@ -1,4 +1,4 @@
-program ::= "$" decllist "." cmpdstmt "$"
+program ::= "$" decllist "." stmtlist "$"
 
 decllist ::= declaration | declaration "." decllist
 
@@ -9,8 +9,6 @@ type1 ::= "integer" | "char" | "bool" | "string"
 arraydeclaration ::= type1 IDENTIFIER "{" nr "}"
 
 type ::= type1 | arraydecl
-
-cmpdstmt ::= stmtlist
 
 stmtlist ::= stmt | stmt "." stmtlist
 
@@ -24,17 +22,17 @@ iostmt ::= "READ" "[" IDENTIFIER"]" | "WRITE" "[" IDENTIFIER "]"
 
 expression = term | expression "+" term | expression "-" term
 
-term ::= term "*" factor | term "/" factor | factor
+term ::= term "*" factor | term "/" factor | term "mod" factor | factor
 
 factor ::= "[" expression "]" | IDENTIFIER | CONST
 
-structstmt ::= cmpdstmt | ifstmt | duringstmt | loopstmt
+structstmt ::= stmtlist | ifstmt | duringstmt | loopstmt
 
-ifstmt ::= "if" "[" conditionstmt "]" ":" cmpdstmt [ "else" ":" cmpdstmt]
+ifstmt ::= "if" "[" conditionstmt "]" ":" stmtlist [ "else" ":" stmtlist]
 
-duringstmt ::= "during" "[" conditionstmt "]" ":" cmpdstmt
+duringstmt ::= "during" "[" conditionstmt "]" ":" stmtlist
 
-loopstmt ::= "loop" loopcond ":" cmpdstmt
+loopstmt ::= "loop" loopcond ":" stmtlist
 
 loopcond ::= "[" assignstmt "," conditionstmt "," assignstmt "]"
 
