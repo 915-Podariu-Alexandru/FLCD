@@ -1,0 +1,44 @@
+
+https://github.com/915-Podariu-Alexandru/FLCD/
+
+Laboratory 2
+
+The Hash table is based on a List of lists(or buckets) which contain the data in an efficient manner.
+
+The functions:
+
+The Couple class allows for easy access to the position of a term in the Hash Table
+
+- findPosition(String term) : returns the position for a term
+
+- createHash(String Key) : returns the hash key, it is computed as the sum of the characters modulo the size
+
+- add(String term) : add an element to the Hash Table
+
+- containsTerm(String Term) : checks if the term has already been added to the HashTable, returns true or false
+
+- getSize() : get the size of the Hash Table
+
+These methods are then used by the Symbol Table by calling them.
+
+Laboratory 3
+
+The ProgramInternalForm is based on a List of Couples(each couple contains an element and its position in the SymbolTable).
+Example: 
+	SEPARATOR:  '$'  AT POSITION: {-1,-1}	
+	RESERVED WORD:  'integer'  AT POSITION: {-1,-1}
+	IDENTIFIER: 'a'  AT POSITION: {97,0}
+
+Regexes used:
+
+- For Identifying the Constants:
+
+	- Matching numbers(with all variances, +/-, 0 case): "^0|[-|+]?[1-9][0-9]*"
+
+	- Matching characters(digit or letter enclosed by ''): "^'[a-zA-Z0-9]'"
+
+	- Matching strings(a sequence of digits and letters enclosed by "" ): "^\"[0-9a-zA-Z]*\""
+
+- For Identifying the Identifiers: "^[a-zA-Z][a-zA-Z0-9]*"
+
+	- Matching the a sequence that starts with a letter followed by letters or digits
