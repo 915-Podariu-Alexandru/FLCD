@@ -1,0 +1,6 @@
+Hash Table based on Lists of Lists 
+5: [i]
+10: [n]
+41: [sum]
+97: [a]
+

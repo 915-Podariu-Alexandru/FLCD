@@ -1,0 +1,21 @@
+$
+
+int a.
+
+read[a].
+
+if [ a < 2 ]:
+	print ["false"].
+	break.
+
+if [ a != 2 && a mod 2 == 0 ]:
+	print ['false'].
+	break.
+	
+loopy [ integer i := 3, i * i =< a, i := i + 1]:
+	if [ a mod i = 0]
+		print [ "false" ].
+		break.
+
+print ["true"].
+$
