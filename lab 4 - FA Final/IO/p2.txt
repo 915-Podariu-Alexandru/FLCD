@@ -1,0 +1,15 @@
+$
+
+integer a, integer b.
+
+read [a].
+read [b].
+
+during [ b != 0 ]:
+	integer r := a mod b.
+	a := b.
+	b := r.
+
+print [a].
+$
+

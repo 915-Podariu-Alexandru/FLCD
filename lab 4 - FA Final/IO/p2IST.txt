@@ -1,0 +1,5 @@
+Hash Table based on Lists of Lists 
+14: [r]
+97: [a]
+98: [b]
+

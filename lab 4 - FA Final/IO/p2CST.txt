@@ -1,0 +1,3 @@
+Hash Table based on Lists of Lists 
+48: [0]
+

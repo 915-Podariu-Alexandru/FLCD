@@ -1,0 +1,8 @@
+Hash Table based on Lists of Lists 
+16: ["true"]
+48: [0]
+49: [1]
+50: [2]
+51: [3]
+91: ["false"]
+
