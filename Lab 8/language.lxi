@@ -1,0 +1,68 @@
+
+%{ 	 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int currentLine = 1;
+%} 
+
+%option noyywrap
+
+IDENTIFIER	[a-zA-Z][a-zA-Z0-9]*
+
+NUMBER_CONST	0|[+|-]?[1-9][0-9]*([.][0-9]*)?|[+|-]?0[.][0-9]*
+
+STRING_CONST	[\"][a-zA-Z0-9 ]+[\"]
+
+CHAR_CONST		[\'][a-zA-Z0-9 ][\']
+
+%%
+
+"read"|"print"|"if"|"else"|"loop"|"during"|"integer"|"string"|"char"|"break"	{printf("RESERVED WORD: %s\n", yytext);}
+
+"+"|"-"|"*"|"/"|"mod"|"<="|">="|"=="|"!="|"<"|">"|"="|"&"|"|"	{printf("OPERATOR: %s\n", yytext);}
+
+"{"|"}"|"("|")"|"["|"]"|":"|"."|","|"'"|"\""|"$"  {printf("SEPARATOR: %s\n", yytext);}
+
+{IDENTIFIER}		{printf("IDENTIFIER: %s\n", yytext);}
+
+{NUMBER_CONST}		{printf("NUMERIC CONSTANT: %s\n", yytext);}
+
+{STRING_CONST}		{printf("STRING CONSTANT: %s\n", yytext);}
+
+{CHAR_CONST}		{printf("CHAR CONSTANT: %s\n", yytext);}
+
+[ \t]+	{}
+[\n]+	{currentLine++;}
+
+[0-9][a-zA-Z0-9]* {printf("Error: Incorrect IDENTIFIER at the line %d\n", currentLine);}
+
+[+|-]0	{printf("Error: Incorrect NUMERIC CONSTANT at the line %d\n", currentLine);}
+
+[+|-]?[0][0-9]*([.][0-9]*)? {printf("Error: Incorrect NUMERIC CONSTANT at line %d\n", currentLine);}
+
+[\'][a-zA-Z0-9 ]{1,}[\'] {printf("Error: Incorrect CHAR CONSTANT at line %d\n", currentLine);}
+
+[\"][a-zA-Z0-9]+|[a-zA-Z0-9]+[\"] {printf("Error: Incorrect STRING CONSTANT at line %d\n", currentLine);}
+
+%%
+
+int main(argc, argv)
+int argc;
+char** argv;
+{           
+if (argc > 1)
+{
+    FILE *file;
+    file = fopen(argv[1], "r");
+    if (!file)
+    {
+        fprintf(stderr, "Could not open %s\n", argv[1]);
+        exit(1);
+    }
+    yyin = file;
+}
+
+yylex();
+return 0;
+}

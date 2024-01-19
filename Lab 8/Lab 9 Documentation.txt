@@ -1,0 +1,384 @@
+//Lab 9
+
+//Lex language.lxi File
+
+%{ 	 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int currentLine = 1;
+%} 
+
+%option noyywrap
+
+IDENTIFIER	[a-zA-Z][a-zA-Z0-9]*
+
+NUMBER_CONST	0|[+|-]?[1-9][0-9]*([.][0-9]*)?|[+|-]?0[.][0-9]*
+
+STRING_CONST	[\"][a-zA-Z0-9 ]+[\"]
+
+CHAR_CONST		[\'][a-zA-Z0-9 ][\']
+
+%%
+
+"read"|"print"|"if"|"else"|"loop"|"during"|"integer"|"string"|"char"|"break"	{printf("RESERVED WORD: %s\n", yytext);}
+
+"+"|"-"|"*"|"/"|"mod"|"<="|">="|"=="|"!="|"<"|">"|"="|"&"|"|"	{printf("OPERATOR: %s\n", yytext);}
+
+"{"|"}"|"("|")"|"["|"]"|":"|"."|","|"'"|"\""|"$"  {printf("SEPARATOR: %s\n", yytext);}
+
+{IDENTIFIER}		{printf("IDENTIFIER: %s\n", yytext);}
+
+{NUMBER_CONST}		{printf("NUMERIC CONSTANT: %s\n", yytext);}
+
+{STRING_CONST}		{printf("STRING CONSTANT: %s\n", yytext);}
+
+{CHAR_CONST}		{printf("CHAR CONSTANT: %s\n", yytext);}
+
+[ \t]+	{}
+[\n]+	{currentLine++;}
+
+[0-9][a-zA-Z0-9]* {printf("Error: Incorrect IDENTIFIER at the line %d\n", currentLine);}
+
+[+|-]0	{printf("Error: Incorrect NUMERIC CONSTANT at the line %d\n", currentLine);}
+
+[+|-]?[0][0-9]*([.][0-9]*)? {printf("Error: Incorrect NUMERIC CONSTANT at line %d\n", currentLine);}
+
+[\'][a-zA-Z0-9 ]{1,}[\'] {printf("Error: Incorrect CHAR CONSTANT at line %d\n", currentLine);}
+
+[\"][a-zA-Z0-9]+|[a-zA-Z0-9]+[\"] {printf("Error: Incorrect STRING CONSTANT at line %d\n", currentLine);}
+
+%%
+
+int main(argc, argv)
+int argc;
+char** argv;
+{           
+if (argc > 1)
+{
+    FILE *file;
+    file = fopen(argv[1], "r");
+    if (!file)
+    {
+        fprintf(stderr, "Could not open %s\n", argv[1]);
+        exit(1);
+    }
+    yyin = file;
+}
+
+yylex();
+return 0;
+}
+
+To Run:
+
+(base) alex@Alexandrus-MacBook-Air downloads % lex language.lxi
+(base) alex@Alexandrus-MacBook-Air downloads % gcc lex.yy.c
+
+//Output for p1.txt
+(base) alex@Alexandrus-MacBook-Air downloads % ./a.out p1.txt   
+SEPARATOR: $
+RESERVED WORD: integer
+IDENTIFIER: a
+SEPARATOR: .
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: a
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: if
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: <
+NUMERIC CONSTANT: 2
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+RESERVED WORD: if
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: ==
+NUMERIC CONSTANT: 2
+OPERATOR: &
+IDENTIFIER: a
+OPERATOR: mod
+NUMERIC CONSTANT: 2
+OPERATOR: ==
+NUMERIC CONSTANT: 0
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+RESERVED WORD: loop
+SEPARATOR: [
+RESERVED WORD: integer
+IDENTIFIER: i
+OPERATOR: =
+NUMERIC CONSTANT: 3
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: *
+IDENTIFIER: i
+OPERATOR: <=
+IDENTIFIER: a
+SEPARATOR: ,
+IDENTIFIER: i
+SEPARATOR: :
+OPERATOR: =
+IDENTIFIER: i
+OPERATOR: +
+NUMERIC CONSTANT: 1
+SEPARATOR: ]
+SEPARATOR: :
+IDENTIFIER: IF
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: mod
+IDENTIFIER: i
+OPERATOR: =
+NUMERIC CONSTANT: 0
+SEPARATOR: ]
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "true"
+SEPARATOR: ]
+SEPARATOR: .
+SEPARATOR: $
+(base) alex@Alexandrus-MacBook-Air downloads % 
+
+
+//Output For p2.txt
+(base) alex@Alexandrus-MacBook-Air downloads % ./a.out p2.txt
+SEPARATOR: $
+RESERVED WORD: integer
+IDENTIFIER: a
+SEPARATOR: ,
+RESERVED WORD: integer
+IDENTIFIER: b
+SEPARATOR: .
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: a
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: b
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: during
+SEPARATOR: [
+IDENTIFIER: b
+OPERATOR: !=
+NUMERIC CONSTANT: 0
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: integer
+IDENTIFIER: r
+OPERATOR: =
+IDENTIFIER: a
+OPERATOR: mod
+IDENTIFIER: b
+SEPARATOR: .
+IDENTIFIER: a
+OPERATOR: =
+IDENTIFIER: b
+SEPARATOR: .
+IDENTIFIER: b
+OPERATOR: =
+IDENTIFIER: r
+SEPARATOR: .
+RESERVED WORD: print
+SEPARATOR: [
+IDENTIFIER: a
+SEPARATOR: ]
+SEPARATOR: .
+SEPARATOR: $
+
+//Output For p3.txt
+(base) alex@Alexandrus-MacBook-Air downloads % ./a.out p3.txt
+SEPARATOR: $
+RESERVED WORD: integer
+IDENTIFIER: a
+SEPARATOR: {
+NUMERIC CONSTANT: 101
+SEPARATOR: }
+SEPARATOR: .
+RESERVED WORD: integer
+IDENTIFIER: n
+SEPARATOR: .
+RESERVED WORD: integer
+IDENTIFIER: sum
+OPERATOR: =
+NUMERIC CONSTANT: 0.
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: n
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: loop
+SEPARATOR: [
+RESERVED WORD: integer
+IDENTIFIER: i
+OPERATOR: =
+NUMERIC CONSTANT: 1
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: <=
+IDENTIFIER: n
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: =
+IDENTIFIER: i
+OPERATOR: +
+NUMERIC CONSTANT: 1
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: a
+SEPARATOR: {
+IDENTIFIER: i
+SEPARATOR: }
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: loop
+SEPARATOR: [
+RESERVED WORD: integer
+IDENTIFIER: i
+OPERATOR: =
+NUMERIC CONSTANT: 1
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: <=
+IDENTIFIER: n
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: =
+IDENTIFIER: i
+OPERATOR: +
+NUMERIC CONSTANT: 1
+SEPARATOR: ]
+SEPARATOR: :
+IDENTIFIER: sum
+OPERATOR: =
+IDENTIFIER: sum
+OPERATOR: +
+IDENTIFIER: a
+SEPARATOR: {
+IDENTIFIER: i
+SEPARATOR: }
+SEPARATOR: .
+RESERVED WORD: print
+SEPARATOR: [
+IDENTIFIER: sum
+SEPARATOR: ]
+SEPARATOR: .
+SEPARATOR: $
+
+//Output For p1err.txt
+(base) alex@Alexandrus-MacBook-Air downloads % ./a.out p1err.txt
+SEPARATOR: $
+IDENTIFIER: int
+IDENTIFIER: a
+SEPARATOR: .
+RESERVED WORD: read
+SEPARATOR: [
+IDENTIFIER: a
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: if
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: <
+NUMERIC CONSTANT: 2
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+RESERVED WORD: if
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: !=
+NUMERIC CONSTANT: 2
+OPERATOR: &
+IDENTIFIER: a
+OPERATOR: mod
+NUMERIC CONSTANT: 2
+OPERATOR: ==
+NUMERIC CONSTANT: 0
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+IDENTIFIER: loopy
+SEPARATOR: [
+RESERVED WORD: integer
+IDENTIFIER: i
+OPERATOR: =
+NUMERIC CONSTANT: 3
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: *
+IDENTIFIER: i
+OPERATOR: =
+OPERATOR: <
+IDENTIFIER: a
+SEPARATOR: ,
+IDENTIFIER: i
+OPERATOR: =
+IDENTIFIER: i
+OPERATOR: +
+NUMERIC CONSTANT: 1
+SEPARATOR: ]
+SEPARATOR: :
+RESERVED WORD: if
+SEPARATOR: [
+IDENTIFIER: a
+OPERATOR: mod
+IDENTIFIER: i
+OPERATOR: ==
+NUMERIC CONSTANT: 0
+SEPARATOR: ]
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "false"
+SEPARATOR: ]
+SEPARATOR: .
+RESERVED WORD: break
+SEPARATOR: .
+RESERVED WORD: print
+SEPARATOR: [
+STRING CONSTANT: "true"
+SEPARATOR: ]
+SEPARATOR: .
+SEPARATOR: $
+(base) alex@Alexandrus-MacBook-Air downloads % 
